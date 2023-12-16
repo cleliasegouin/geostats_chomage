@@ -9,18 +9,18 @@ import pandas as pd
 import geopandas as gpd 
 import numpy as np
 
-##Import données commune 
-
-arrondissement = gpd.read_file("C:/Users/josep/OneDrive/Documents/ENSG/geodatascience/geostats/communes/arrondissements.shp")
-cities = gpd.read_file("C:/Users/josep/OneDrive/Documents/ENSG/geodatascience/geostats/communes/COMMUNE.shp")
+##Import données communes (et arrondissement de Paris)
+arrondissement = gpd.read_file("data/communes_arrondissements/arrondissements.shp")
+cities = gpd.read_file("data/communes_arrondissements/COMMUNE.shp")
 
 # On garde les communes d'IDF
 cities_idf = cities[cities["INSEE_REG"]=="11"]
 
-# On supprime l'entité "Paris"
+# Ajout des arrondissement de Paris 
+    # On supprime l'entité "Paris"
 cities_idf = cities_idf[cities_idf["INSEE_COM"]!= "75056"]
 
-# Préparation de la concaténation
+    # Préparation de la concaténation
 arrondissement = arrondissement.to_crs(2154)
 cities_idf = cities_idf.to_crs(2154)
 
@@ -29,7 +29,7 @@ cities_w_arrondissement = pd.concat([cities_idf, arrondissement],ignore_index=Tr
 
 ## Import des données de flux de mobilités : 
     
-flux = pd.read_csv("C:/Users/josep/OneDrive/Documents/ENSG/geodatascience/geostats/traj_dom_travail/base-flux-mobilite-domicile-lieu-travail-2019.csv",sep=';',
+flux = pd.read_csv("data/flux_dom_trav/base-flux-mobilite-domicile-lieu-travail-2019.csv",sep=';',
                    dtype = {'CODGEO': str, 'LIBGEO': str, 'DCLT': str,'L_DCLT':str,'NBFLUX_C198ACTOCC15O':np.float64})
 
 flux.reset_index(inplace=True)
