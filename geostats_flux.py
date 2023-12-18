@@ -9,6 +9,8 @@ import pandas as pd
 import geopandas as gpd 
 import numpy as np
 
+### ETAPE 1 - PREPARATION DES DONNEES DE FLUX DOMICILE-TRAVAIL ### 
+
 ##Import données communes (et arrondissement de Paris)
 arrondissement = gpd.read_file("data/communes_arrondissements/arrondissements.shp")
 cities = gpd.read_file("data/communes_arrondissements/COMMUNE.shp")
@@ -57,5 +59,6 @@ flux_dep["lon"] = flux_dep["centroid"].x
 
 flux_arr["lat"] = flux_arr["centroid"].y
 flux_arr["lon"] = flux_arr["centroid"].x
+
 
 
