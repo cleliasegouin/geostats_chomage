@@ -17,6 +17,12 @@ TC_flux_duration_idf = TC_flux_duration[complete.cases(TC_flux_duration$VAL),]
 # Ajout des données taux de chômage, pop active de la commune de départ
 TC_flux_duration_idf_chom = left_join(TC_flux_duration_idf, df_pop_chom, by = c('CODGEO'))
 
+# Tableau des flux pour les temps de trajets en voiture
+temps_vpm = temps_flux$VPM
+temps_vps = temps_flux$VPS
+temps_vp = left_join(x=temps_vpm,y=temps_vps,by=c('ORI','DES'))
+temps_vp$MEAN_DURATION = (temps_vp$VAL.x+temps_vp$VAL.y)/2
+
 #install.packages('ineq')
 #library(ineq)
 #lorenz = Lc(x=df_joint$VAL,plot=TRUE)
