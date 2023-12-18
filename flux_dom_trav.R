@@ -1,3 +1,5 @@
+library("dplyr")
+
 temps_flux = readRDS("./data/flux_dom_trav/listtimes.Rds")
 
 ## DOCUMENTATION : MODE mode de transport 
@@ -23,8 +25,8 @@ df_pop_active = read.csv("./data/emploi/pop_active.csv",sep=";")
 
 # Trajet TC : 
 
-df_chom_access = df_pop_active[df_pop_active$CODGEO, df_pop_active$P20_CHOM1564, df_pop_active$taux_CHOM1564_POP1564]
+df_pop_chom <- select(df_pop_active, CODGEO, P20_CHOM1564, taux_CHOM1564_POP1564)
 
-
-
+df_pop_chom$CODGEO <- as.character(df_pop_chom$CODGEO)
+df_joint <- left_join(df_pop_chom, temps_TC, by = c("CODGEO" = "DES"))
 
