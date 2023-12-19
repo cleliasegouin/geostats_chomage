@@ -10,15 +10,12 @@ import geopandas as gpd
 import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
-import os
 
-## Changer de répertoire de travail 
-os.chdir("C:/Users/josep/OneDrive/Documents/ENSG/geodatascience/geostats_chomage")
 
 
 ##Import données communes (et arrondissement de Paris)
-arrondissement = gpd.read_file("./data/communes_arrondissements/arrondissements.shp")
-cities = gpd.read_file("./data/communes_arrondissements/COMMUNE.shp")
+arrondissement = gpd.read_file("data/communes_arrondissements/arrondissements.shp")
+cities = gpd.read_file("data/communes_arrondissements/COMMUNE.shp")
 
 # On garde les communes d'IDF
 cities_idf = cities[cities["INSEE_REG"]=="11"]
@@ -37,7 +34,7 @@ cities_w_arrondissement = pd.concat([cities_idf, arrondissement],ignore_index=Tr
 
 ## Import des données de flux de mobilités : 
     
-flux = pd.read_csv("./data/flux_dom_trav/base-flux-mobilite-domicile-lieu-travail-2019.csv",sep=';',
+flux = pd.read_csv("data/flux_dom_trav/base-flux-mobilite-domicile-lieu-travail-2019.csv",sep=';',
                    dtype = {'CODGEO': str, 'LIBGEO': str, 'DCLT': str,'L_DCLT':str,'NBFLUX_C198ACTOCC15O':np.float64})
 
 flux.reset_index(inplace=True)
@@ -49,51 +46,26 @@ cities_w_arrondissement = cities_w_arrondissement.rename(columns={"INSEE_COM": "
 cities_w_arrondissement = cities_w_arrondissement.dropna(subset="CODGEO")
 cities_w_arrondissement["CODGEO"] = cities_w_arrondissement["CODGEO"].astype(str)
 
-
-##Jointure des flux et communes d'IDF
-flux_dep = pd.merge(cities_w_arrondissement,flux, how="inner",on="CODGEO")
+## Jointure des flux et des communes d'IDF 
+flux_dep_join = pd.merge(flux,cities_w_arrondissement.add_prefix('dep_'), left_on='CODGEO',right_on='dep_CODGEO', how="left")
 
 cities_w_arrondissement = cities_w_arrondissement.rename(columns={"CODGEO": "DCLT"})
-flux_arr = pd.merge(cities_w_arrondissement,flux, how="inner",on="DCLT")
+flux_all_join = pd.merge(flux_dep_join, cities_w_arrondissement.add_prefix('arr_'),left_on='DCLT',right_on='arr_DCLT', how="left")
+
+flux_all_join = flux_all_join.dropna(subset=["CODGEO","DCLT","dep_CODGEO","arr_DCLT"])
+flux_all_join = gpd.GeoDataFrame(flux_all_join, geometry='arr_geometry')
+
+
 ## Calcul des centroïdes des polygones 
-flux_dep["centroid"] = flux_dep["geometry"].centroid
-flux_arr["centroid"] = flux_arr["geometry"].centroid
 
-flux_dep["lat"] = flux_dep["centroid"].y
-flux_dep["lon"] = flux_dep["centroid"].x
+# Assurer que les colonnes de géométrie sont des GeoSeries
+flux_all_join['dep_geometry'] = gpd.GeoSeries(flux_all_join['dep_geometry'])
+flux_all_join['arr_geometry'] = gpd.GeoSeries(flux_all_join['arr_geometry'])
 
-flux_arr["lat"] = flux_arr["centroid"].y
-flux_arr["lon"] = flux_arr["centroid"].x
+# Calcul des centroïdes pour les géométries de départ et d'arrivée
+flux_all_join['centroid_dep'] = flux_all_join['dep_geometry'].centroid
+flux_all_join['centroid_arr'] = flux_all_join['arr_geometry'].centroid
 
-## 
-
-df_grouped_flux = pd.DataFrame(flux_arr.groupby('CODGEO')['NBFLUX_C19_ACTOCC15P'].sum().sort_values(ascending=False)).reset_index()
-
-## Questions : 
-    #- isolements des communes actives selon un seuil sur les valeurs de flux pour définir bassin d'emploi
-    #
-
-## VISU Box plot 
-# box_pop = go.Box(y=df_grouped_pop['POPULATION'], name="Population")
-box_flux = go.Box(y=df_grouped_flux['NBFLUX_C19_ACTOCC15P'], name="Flux")
-
-fig = go.Figure()
-#fig.add_trace(box_pop)
-fig.add_trace(box_flux)
-
-
-fig.write_html("C:/Users/josep/OneDrive/Documents/ENSG/geodatascience/geostats_chomage/box_plot_flux.html")
-
-
-## VISU Histogramme 
-
-
-fig = px.histogram(df_grouped_flux, x='NBFLUX_C19_ACTOCC15P', title="Histogramme du Nombre de Flux par Commune")
-
-fig.update_layout(
-    xaxis_title="Nombre Total de Flux",
-    yaxis_title="Nombre de Communes",
-    title="Distribution du Nombre de Flux par Commune"
-)
-
-fig.write_html("C:/Users/josep/OneDrive/Documents/ENSG/geodatascience/geostats_chomage/histo_flux.html")
+# Calcul de la distance euclidienne entre les centroïdes
+flux_all_join['euclidean_distance'] = flux_all_join.apply(lambda row: row['centroid_dep'].distance(row['centroid_arr']), axis=1)
+flux_all_join.to_csv("./data/flux_dom_trav/flux_idf_distance.csv",sep=";")
