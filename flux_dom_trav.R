@@ -56,9 +56,12 @@ ggscatter(VP_flux_duration_idf_chom_revenu, x = "MED20", y = "taux_CHOM1564_POP1
 ## Corrélation chômage/arrêt/fréquence de passage
 frequences = read.csv('data/transports_idf/frequence_par_commune.csv')
 arret = read.csv('data/transports_idf/stops_par_commune.csv')
-
+frequences$CODGEO = as.character(frequences$CODGEO)
+arret$CODGEO = as.character(arret$CODGEO)
+df_pop_active$CODGEO = as.character(df_pop_active$CODGEO)
 comm_pop_freq = left_join(df_pop_active,frequences,by=c('CODGEO'))
 comm_pop_freq_arr = left_join(comm_pop_freq,arret,by=c('CODGEO'))
+
 
 comm_pop_freq_arr$freq_par_hab = 
   comm_pop_freq_arr$arrival_time_num/
@@ -104,3 +107,4 @@ ggscatter(VP_flux_duration_idf_chom_revenu_freq_arr, x = "freq_par_hab", y = "ME
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
           xlab = "Nombre de passage par jour par habitant", ylab = "Niveau de vie médian")
+
