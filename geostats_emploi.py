@@ -13,13 +13,13 @@ import plotly.express as px
 import os
 
 ## Changer de répertoire de travail 
-os.chdir("C:/Users/josep/OneDrive/Documents/ENSG/geodatascience/geostats_chomage")
+# os.chdir("C:/Users/steph/OneDrive/Bureau/ENSG/ING3/DESIGEO/Analyse spatiale/Projet/geostats_chomage")
 
 ##Import données commune 
 ## référence et source des données : https://www.insee.fr/fr/statistiques/7632867?sommaire=7632977#dictionnaire
 
-arrondissement = gpd.read_file("C:/Users/josep/OneDrive/Documents/ENSG/geodatascience/geostats/communes/arrondissements.shp")
-cities = gpd.read_file("C:/Users/josep/OneDrive/Documents/ENSG/geodatascience/geostats/communes/COMMUNE.shp")
+arrondissement = gpd.read_file("data/communes_arrondissements/arrondissements.shp")
+cities = gpd.read_file("data/communes_arrondissements/COMMUNE.shp")
 
 # On garde les communes d'IDF
 cities_idf = cities[cities["INSEE_REG"]=="11"]
@@ -36,7 +36,7 @@ cities_w_arrondissement = pd.concat([cities_idf, arrondissement],ignore_index=Tr
 
 ## Import données filosofi 
 
-filosofi = pd.read_csv("./data/emploi/base-cc-emploi-pop-active-2020_v2.CSV", sep=";",dtype =str)
+filosofi = pd.read_csv("data/emploi/base-cc-emploi-pop-active-2020_v2.CSV", sep=";",dtype =str)
 
 cities_w_arrondissement = cities_w_arrondissement.rename(columns={"INSEE_COM": "CODGEO"})
 cities_w_arrondissement = cities_w_arrondissement.dropna(subset="CODGEO")
