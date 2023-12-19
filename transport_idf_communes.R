@@ -8,7 +8,7 @@ library(mapsf)
 
 # 1. Import des fichiers
 # 1.1 Import des données brutes
-communes <- st_read('C:\\Users\\julie\\Documents\\3A\\STATISTIQUES\\PROJET GEOSTATS\\DONNEES\\Communes with arr\\communes_with_arr.shp')
+communes <- st_read('C:\\Users\\julie\\Documents\\3A\\STATISTIQUES\\PROJET GEOSTATS\\DONNEES\\cities_with_arr\\cities_arr.shp')
 # 1.2 Import des résultats du traitement des données
 frequence_par_commune <- read.csv('C:\\Users\\julie\\Documents\\3A\\STATISTIQUES\\PROJET GEOSTATS\\geostats_chomage\\frequence_par_commune.csv')
 stops_par_commune <- read.csv('C:\\Users\\julie\\Documents\\3A\\STATISTIQUES\\PROJET GEOSTATS\\geostats_chomage\\stops_par_commune.csv')
@@ -29,14 +29,17 @@ stops_par_commune_conso = left_join(x = communes,
 # 3.1 Affichage de la fréquence de passages par habitant par commune
 frequence_par_commune_conso$freq_par_hab = 
   frequence_par_commune_conso$arrival_time_num/
-  frequence_par_commune_conso$POPULATION
+  frequence_par_commune_conso$P20_POP156
 mf_map(x = frequence_par_commune_conso,
        var = "freq_par_hab",
        type = "choro")
+mf_map(x = frequence_par_commune_conso,
+       var = "freq_par_hab",
+       type = "prop")
 # 3.2 Affichage de la proportion de stops par habitant par commune
 stops_par_commune_conso$stops_par_hab = 
   stops_par_commune_conso$stop_id /
-  stops_par_commune_conso$POPULATION
+  stops_par_commune_conso$P20_POP156
 mf_map(x = stops_par_commune_conso,
        var = "stops_par_hab",
        type = "choro")
