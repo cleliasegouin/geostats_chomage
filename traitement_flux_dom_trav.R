@@ -1,0 +1,33 @@
+library(sf)
+library(dplyr)
+
+# Import des données 
+temps_flux = readRDS('data/flux_dom_trav/listtimes.Rds')
+flux = read.csv('data/flux_dom_trav/flux_idf_distance.csv',sep=";")
+flux = select(flux, id,CODGEO,LIBGEO,DCLT,L_DCLT,NBFLUX_C19_ACTOCC15P,dep_geometry,arr_geometry,euclidean_distance)
+flux$CODGEO = as.character(flux$CODGEO)
+flux$DCLT = as.character(flux$DCLT)
+
+df_pop_active = read.csv("./data/emploi/pop_active.csv",sep=";")
+df_pop_chom = select(df_pop_active, CODGEO, P20_CHOM1564, taux_CHOM1564_POP1564, P20_POP1564)
+df_pop_chom$CODGEO = as.character(df_pop_chom$CODGEO)
+
+# Tableau des flux pour les temps de trajets en TC 
+temps_TC = temps_flux$TC
+temps_TC = temps_TC %>%  rename(CODGEO=ORI,DCLT=DES)
+TC_flux_duration = left_join(x=flux,y=temps_TC,by=c('CODGEO','DCLT'))
+TC_flux_duration_idf = TC_flux_duration[complete.cases(TC_flux_duration$VAL),]
+
+# Ajout des données taux de chômage, pop active de la commune de départ
+TC_flux_duration_idf_chom = left_join(TC_flux_duration_idf, df_pop_chom, by = c('CODGEO'))
+
+# Regroupement des données par commune d'arrivées et selon le type d'aggregation 
+TC_flux_grouped_com_1 = aggregate(select(TC_flux_duration_idf_chom,taux_CHOM1564_POP1564,P20_CHOM1564,P20_POP1564, euclidean_distance), by=list(TC_flux_duration_idf_chom$DCLT), FUN=mean)
+TC_flux_grouped_com_2 = aggregate(select(TC_flux_duration_idf_chom, VAL, NBFLUX_C19_ACTOCC15P), by = list(TC_flux_duration_idf_chom$DCLT), FUN=sum)
+
+TC_flux_grouped_com = cbind(TC_flux_grouped_com_1, TC_flux_grouped_com_2)
+TC_flux_grouped_com <- TC_flux_grouped_com[, !duplicated(colnames(TC_flux_grouped_com))]
+
+TC_flux_grouped_filtered <- TC_flux_grouped_com %>% filter(euclidean_distance != 0)
+
+write.csv(TC_flux_grouped_filtered, "data/flux_dom_trav/flux_idf_tc_chomage.csv")
