@@ -22,33 +22,26 @@ communes = gpd.read_file('data/cities_with_arr/cities_arr.shp')
 # 2. Conversion des fichiers en GeoDataFrame
 communes_spatial = gpd.GeoDataFrame(data = communes, geometry='geometry')
 
-# 3. Affichage
-communes.plot()
-base = communes.plot(color='white', edgecolor='black')
-#stops.plot(ax = base, x = stops.stop_lon, y = stops.stop_lat, color = 'darkblue')
-
-# 4. Agrégation sur les arrêts pour avoir le nombre de passages par arrêt
-# 4.1. Création d'une table simplifié depuis stop_times
+# 3. Agrégation sur les arrêts pour avoir le nombre de passages par arrêt
+# 3.1. Création d'une table simplifié depuis stop_times
 stop_times.insert(loc = 10, column = 'arrival_time_num', value = 1)
-#stop_times_reduit = pd.DataFrame(data = stop_times, columns=['id', 'arrival_time_num'])
-
-# 4.2 Calcul de l'agrégation
+# 3.2 Calcul de l'agrégation
 frequence_par_arret = stop_times.groupby(by=["stop_id"]).sum()
 
-# 5. Jointure de la table des fréquences sur les arrêts
+# 4. Jointure de la table des fréquences sur les arrêts
 stops = stops.join(other = frequence_par_arret, on = 'stop_id', how = 'left')
 
-# 6. Jointure spatiale sur les communes
-# 6.1 Formatage et reprojection
+# 5. Jointure spatiale sur les communes
+# 5.1 Formatage et reprojection
 stops_spatial = gpd.GeoDataFrame(data = stops, geometry = gpd.points_from_xy(x = stops.stop_lon, y = stops.stop_lat),crs = 4326)
 stops_spatial = stops_spatial.to_crs(2154)
-# 6.2 Jointure spatiale
+# 5.2 Jointure spatiale
 jointure = gpd.sjoin(left_df= stops_spatial, right_df = communes, how = 'left', predicate = 'within')
-# 6.3 Fréquence par commune et arrêts par commune
+# 5.3 Fréquence par commune et arrêts par commune
 frequence_par_commune = jointure.groupby(by=["CODGEO"])['arrival_time_num'].sum()
 stops_par_commune = jointure.groupby(by=["CODGEO"])['stop_id'].count()
 
-# 7. Export des résultats
+# 6. Export des résultats
 frequence_par_commune = pd.DataFrame(data = frequence_par_commune)
 stops_par_commune = pd.DataFrame(data = stops_par_commune)
 frequence_par_commune.to_csv('data/output/frequence_par_commune.csv')

@@ -46,7 +46,6 @@ stops_par_commune_conso$stops_par_hab =
 
 # 3. Affichage des cartes
 # 3.1 Affichage de la fréquence de passages par habitant par commune
-
 mf_map(x = frequence_par_commune_conso,
        var = "freq_par_hab",
        type = "choro",
@@ -55,14 +54,7 @@ mf_title("Carte du nombre de passages par habitant par commune en Île-de-France
 mf_scale()
 mf_arrow(pos = "topright")
 
-mf_map(x = frequence_par_commune_conso,
-       var = "freq_par_hab",
-       type = "prop")
-
 # 3.2 Affichage de la proportion de stops par habitant par commune
-
-
-
 mf_map(x = stops_par_commune_conso,
        var = "stops_par_hab",
        type = "choro",
@@ -70,15 +62,6 @@ mf_map(x = stops_par_commune_conso,
 mf_title("Carte du nombre d'arrêts par habitant commune en Île-de-France")
 mf_scale()
 mf_arrow(pos = "topright")
-
-mf_base(communes, col = "white", border = "black")
-points((6961598.08,3113789.96))
-
-mf_map(x = c(6961598.08,3113789.96))
-mf_map(x = stops_par_commune_conso,
-       var = "stop_id",
-       type = "prop")
-
 
 # 3.3 Chômage par commune
 mf_map(x = chomage_commune,
