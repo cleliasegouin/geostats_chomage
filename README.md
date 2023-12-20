@@ -1,4 +1,4 @@
-# étude statistique de l'isolement géographique comme facteur du taux de chomâge des communes en Île-de-France 
+# Etude statistique de l'isolement géographique comme facteur du taux de chômage des communes en Île-de-France 
 
 ## Pré-traitements 
 
