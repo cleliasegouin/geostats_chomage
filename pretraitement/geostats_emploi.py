@@ -62,10 +62,7 @@ df_pop_active["taux_ACT1564_POP1564"]= df_pop_active["P20_ACT1564"]/df_pop_activ
 df_pop_active["taux_ACTOCC_POP1564"]= df_pop_active["P20_ACTOCC"]/df_pop_active["P20_POP1564"]*100 
 df_pop_active["taux_ACTOCC_POPULATION"]= df_pop_active["P20_ACTOCC"]/df_pop_active["POPULATION"]*100 
 
-df_pop_active["taux_CHOM1564_POP1564"]= df_pop_active["P20_CHOM1564"]/df_pop_active["P20_POP1564"]*100 
-df_pop_active["taux_CHOM1564_POPULATION"]= df_pop_active["P20_CHOM1564"]/df_pop_active["P20_POP1564"]*100 
-
-## 5536762 // 5794216
+df_pop_active["taux_CHOM1564_POP1564"]= df_pop_active["P20_CHOM1564"]/df_pop_active["P20_ACT1564"]*100 
 
 df_pop_active.to_csv("./data/emploi/pop_active.csv",sep=";")
 ##Taux pauvreté des ménages : 

@@ -7,11 +7,17 @@ Created on Mon Dec 18 12:07:31 2023
 
 import geopandas as gpd
 import pandas as pd
+import os 
+
+## Changer de répertoire de travail 
+# os.chdir("C:/Users/steph/OneDrive/Bureau/ENSG/ING3/DESIGEO/Analyse spatiale/Projet/geostats_chomage")
 
 # 1. Import des fichiers
-stops = pd.read_csv('C:\\Users\\julie\\Documents\\3A\\STATISTIQUES\\PROJET GEOSTATS\\DONNEES\\Horaires et fréquence sur les lignes TeC IDF\\IDFM-gtfs\\stops.txt')
-stop_times = pd.read_csv('C:\\Users\\julie\\Documents\\3A\\STATISTIQUES\\PROJET GEOSTATS\\DONNEES\\Horaires et fréquence sur les lignes TeC IDF\\IDFM-gtfs\\stop_times.txt')
-communes = gpd.read_file('C:\\Users\\julie\\Documents\\3A\\STATISTIQUES\\PROJET GEOSTATS\\DONNEES\\cities_with_arr\\cities_arr.shp')
+
+##Fichiers à télécharger 
+stops = pd.read_csv('data/Horaires et fréquence sur les lignes TeC IDF/IDFM-gtfs/stops.txt')
+stop_times = pd.read_csv('data/Horaires et fréquence sur les lignes TeC IDF/IDFM-gtfs\\stop_times.txt')
+communes = gpd.read_file('data/cities_with_arr/cities_arr.shp')
 
 # 2. Conversion des fichiers en GeoDataFrame
 communes_spatial = gpd.GeoDataFrame(data = communes, geometry='geometry')
@@ -45,6 +51,6 @@ stops_par_commune = jointure.groupby(by=["CODGEO"])['stop_id'].count()
 # 7. Export des résultats
 frequence_par_commune = pd.DataFrame(data = frequence_par_commune)
 stops_par_commune = pd.DataFrame(data = stops_par_commune)
-frequence_par_commune.to_csv('C:\\Users\\julie\\Documents\\3A\\STATISTIQUES\\PROJET GEOSTATS\\geostats_chomage\\frequence_par_commune.csv')
-stops_par_commune.to_csv('C:\\Users\\julie\\Documents\\3A\\STATISTIQUES\\PROJET GEOSTATS\\geostats_chomage\\stops_par_commune.csv')
+frequence_par_commune.to_csv('data/output/frequence_par_commune.csv')
+stops_par_commune.to_csv('data/output/stops_par_commune.csv')
 
