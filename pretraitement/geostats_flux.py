@@ -84,4 +84,4 @@ flux_all_join['euclidean_distance_centroid'] = flux_all_join.apply(lambda row: r
 flux_all_join_filtered = flux_all_join[["id","CODGEO","LIBGEO","DCLT","L_DCLT","NBFLUX_C19_ACTOCC15P","dep_geometry","arr_geometry","euclidean_distance","euclidean_distance_centroid"]]
 
 
-flux_all_join_filtered.to_csv("./data/flux_dom_trav/flux_idf_distance.csv",sep=";")
+flux_all_join_filtered.to_csv("./data/output/flux_idf_distance.csv",sep=";")

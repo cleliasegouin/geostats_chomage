@@ -15,9 +15,9 @@ setwd("~/ENSG/geodatascience/geostats_chomage")
 # 1.1 Import des données brutes
 communes <- st_read('data/communes_arrondissements/cities_arr.shp')
 # 1.2 Import des résultats du traitement des données
-frequence_par_commune <- read.csv('data/transports_idf/frequence_par_commune.csv')
-stops_par_commune <- read.csv('data/transports_idf/stops_par_commune.csv')
-pop_active <- read.csv('data/emploi/pop_active.csv', sep = ';')
+frequence_par_commune <- read.csv('data/output/frequence_par_commune.csv')
+stops_par_commune <- read.csv('data/output/stops_par_commune.csv')
+pop_active <- read.csv('data/output/pop_active.csv', sep = ';')
 
 # 2. Jointures sur les communes
 # 2.1 Jointure de la fréquence par commune sur les communes

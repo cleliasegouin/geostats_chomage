@@ -10,7 +10,7 @@ flux$CODGEO = as.character(flux$CODGEO)
 flux$DCLT = as.character(flux$DCLT)
 
 
-df_pop_active = read.csv("./data/emploi/pop_active.csv",sep=";")
+df_pop_active = read.csv("./data/output/pop_active.csv",sep=";")
 df_pop_chom = select(df_pop_active, CODGEO, P20_CHOM1564, taux_CHOM1564_POP1564, P20_POP1564)
 df_pop_chom$CODGEO = as.character(df_pop_chom$CODGEO)
 
@@ -33,7 +33,7 @@ TC_flux_grouped_com <- TC_flux_grouped_com[, !duplicated(colnames(TC_flux_groupe
 
 TC_flux_grouped_filtered <- TC_flux_grouped_com %>% filter(euclidean_distance != 0)
 
-write.csv2(TC_flux_grouped_filtered, "data/flux_dom_trav/flux_idf_TC_chomage.csv")
+write.csv2(TC_flux_grouped_filtered, "data/output/flux_idf_TC_chomage.csv")
 
 
 # Tableau des flux pour les temps de trajets en voiture
@@ -49,4 +49,4 @@ VP_flux_duration_idf = VP_flux_duration[complete.cases(VP_flux_duration$MEAN_DUR
     # Ajout des données de chômage de la commune de départ 
 VP_flux_duration_idf_chom = left_join(VP_flux_duration_idf, df_pop_chom, by = c('CODGEO'))
 
-write.csv2(VP_flux_duration_idf_chom, "data/flux_dom_trav/flux_idf_VP_chomage.csv")
+write.csv2(VP_flux_duration_idf_chom, "data/output/flux_idf_VP_chomage.csv")

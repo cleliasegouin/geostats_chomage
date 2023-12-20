@@ -64,7 +64,7 @@ df_pop_active["taux_ACTOCC_POPULATION"]= df_pop_active["P20_ACTOCC"]/df_pop_acti
 
 df_pop_active["taux_CHOM1564_POP1564"]= df_pop_active["P20_CHOM1564"]/df_pop_active["P20_ACT1564"]*100 
 
-df_pop_active.to_csv("./data/emploi/pop_active.csv",sep=";")
+df_pop_active.to_csv("./data/output/pop_active.csv",sep=";")
 ##Taux pauvreté des ménages : 
 # MED20 : Médiane du niveau de vie (€) 
 # PIMP20 : Part des ménages fiscaux imposés (%) 

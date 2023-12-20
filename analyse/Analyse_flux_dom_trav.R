@@ -1,12 +1,12 @@
 library(ggplot2)
 
 # Import des données 
-flux_TC = read.csv("data/flux_dom_trav/flux_idf_TC_chomage.csv", sep=";")
+flux_TC = read.csv("data/output/flux_idf_TC_chomage.csv", sep=";")
 
 data_revenus = read.csv('data/emploi/cc_filosofi_2020_COM.csv',sep=';')
 data_revenus = select(data_revenus, CODGEO, MED20)
 
-VP_flux_duration_idf_chom = read.csv("data/flux_dom_trav/flux_idf_VP_chomage.csv")
+VP_flux_duration_idf_chom = read.csv("data/output/flux_idf_VP_chomage.csv")
 VP_flux_duration_idf_chom$CODGEO = as.character(VP_flux_duration_idf_chom$CODGEO)
 
 
