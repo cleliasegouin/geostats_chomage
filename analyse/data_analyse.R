@@ -8,11 +8,9 @@ data_revenus$MED20 = as.double(data_revenus$MED20)
 frequences = read.csv('data/transports_idf/frequence_par_commune.csv')
 arret = read.csv('data/transports_idf/stops_par_commune.csv')
 
-
 ## Matrice de corrélation : 
 ## Indicateurs à comparer au taux de chômage : temps moyen en TC, temps moyen en VP, revenu,
 ## Nombre d'arrêts par commune, nombre de passages par communes, distance au centre
-
   
 frequences$CODGEO = as.character(frequences$CODGEO)
 arret$CODGEO = as.character(arret$CODGEO)
@@ -116,7 +114,3 @@ ggplot(data = indicateurs_par_com, aes(x = temps_moyen_VP_comm, y = taux_CHOM156
   labs(title = "Relation entre le temps de trajet moyen en véhicule privé et le taux de chômage",
        x = "Temps de trajet moyen en véhicule privé (minutes)",
        y = "Taux de Chômage")
-
-
-
-
