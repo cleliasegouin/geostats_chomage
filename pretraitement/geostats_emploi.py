@@ -13,13 +13,13 @@ import plotly.express as px
 import os
 
 ## Changer de répertoire de travail 
-# os.chdir("C:/Users/steph/OneDrive/Bureau/ENSG/ING3/DESIGEO/Analyse spatiale/Projet/geostats_chomage")
+os.chdir("C:/Users/julie/Documents/3A/STATISTIQUES/geostats_chomage")
 
 ##Import données commune 
 ## référence et source des données : https://www.insee.fr/fr/statistiques/7632867?sommaire=7632977#dictionnaire
 
-arrondissement = gpd.read_file("data/communes_arrondissements/arrondissements.shp")
-cities = gpd.read_file("data/communes_arrondissements/COMMUNE.shp")
+arrondissement = gpd.read_file("./data/communes_arrondissements/arrondissements.shp")
+cities = gpd.read_file("./data/communes_arrondissements/COMMUNE.shp")
 
 # On garde les communes d'IDF
 cities_idf = cities[cities["INSEE_REG"]=="11"]
