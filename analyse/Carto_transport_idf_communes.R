@@ -6,11 +6,6 @@ library(ggpubr)
 library(sf)
 library(mapsf)
 
-
-## Changer de répertoire de travail : 
-
-setwd("~/ENSG/geodatascience/geostats_chomage")
-
 # 1. Import des fichiers
 # 1.1 Import des données brutes
 communes <- st_read('data/communes_arrondissements/cities_arr.shp')

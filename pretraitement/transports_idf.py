@@ -10,14 +10,14 @@ import pandas as pd
 import os 
 
 ## Changer de répertoire de travail 
-# os.chdir("C:/Users/steph/OneDrive/Bureau/ENSG/ING3/DESIGEO/Analyse spatiale/Projet/geostats_chomage")
+os.chdir("C:/Users/josep/OneDrive/Documents/ENSG/geodatascience/geostats_chomage")
 
 # 1. Import des fichiers
 
 ##Fichiers à télécharger 
-stops = pd.read_csv('data/Horaires et fréquence sur les lignes TeC IDF/IDFM-gtfs/stops.txt')
-stop_times = pd.read_csv('data/Horaires et fréquence sur les lignes TeC IDF/IDFM-gtfs\\stop_times.txt')
-communes = gpd.read_file('data/cities_with_arr/cities_arr.shp')
+stops = pd.read_csv('data/transports_idf/stops.txt')
+stop_times = pd.read_csv('data/transports_idf/stop_times.txt')
+communes = gpd.read_file('data/communes_arrondissements/cities_arr.shp')
 
 # 2. Conversion des fichiers en GeoDataFrame
 communes_spatial = gpd.GeoDataFrame(data = communes, geometry='geometry')
