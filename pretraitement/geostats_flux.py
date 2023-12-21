@@ -14,7 +14,7 @@ import plotly.express as px
 import os
 
 ## Changer de répertoire de travail 
-os.chdir("C:/Users/julie/Documents/3A/STATISTIQUES/geostats_chomage")
+os.chdir("C:/Users/josep/OneDrive/Documents/ENSG/geodatascience/geostats_chomage")
 
 
 ##Import données communes (et arrondissement de Paris)

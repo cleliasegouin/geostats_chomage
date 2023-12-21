@@ -13,7 +13,7 @@ import plotly.express as px
 import os
 
 ## Changer de répertoire de travail 
-os.chdir("C:/Users/julie/Documents/3A/STATISTIQUES/geostats_chomage")
+os.chdir("C:/Users/josep/OneDrive/Documents/ENSG/geodatascience/geostats_chomage")
 
 ##Import données commune 
 ## référence et source des données : https://www.insee.fr/fr/statistiques/7632867?sommaire=7632977#dictionnaire
@@ -65,6 +65,7 @@ df_pop_active["taux_ACTOCC_POPULATION"]= df_pop_active["P20_ACTOCC"]/df_pop_acti
 df_pop_active["taux_CHOM1564_POP1564"]= df_pop_active["P20_CHOM1564"]/df_pop_active["P20_ACT1564"]*100 
 
 df_pop_active.to_csv("./data/output/pop_active.csv",sep=";")
+
 ##Taux pauvreté des ménages : 
 # MED20 : Médiane du niveau de vie (€) 
 # PIMP20 : Part des ménages fiscaux imposés (%) 

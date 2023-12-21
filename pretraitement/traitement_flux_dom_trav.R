@@ -71,3 +71,4 @@ VP_flux_grouped_com_dep <- VP_flux_grouped_com_dep[, !duplicated(colnames(VP_flu
 VP_flux_grouped_dep_filtered <- VP_flux_grouped_com_dep %>% filter(euclidean_distance != 0)
 
 write.csv2(VP_flux_grouped_dep_filtered, "data/output/flux_idf_VP_chomage_depart.csv")
+
