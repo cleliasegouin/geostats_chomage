@@ -7,10 +7,11 @@ Les traitements sur les géométries de nos données ne pouvant pas être réali
 #### Partie flux domicile travail 
   Console Python 
 1. Téléchargement des données sources, trop lourdes pour être sur le git.
-données sources : ... 
-2. Lancement des fichier python geostats_flux.py afin de traiter les données géographiques, soit les données de flux domicile-travail pour les communes d'Île de France associées à une géométrie (temps de traitement assez long). Et lancement du fichier geostats_emploi afin d'obtenir les taux de chômage par commune en IDF.  
+données sources : ...
+2. Ajouter dans le dossier data un dossier vide nommé "output"
+3. Lancement des fichier python geostats_flux.py afin de traiter les données géographiques, soit les données de flux domicile-travail pour les communes d'Île de France associées à une géométrie (temps de traitement assez long). Et lancement du fichier geostats_emploi afin d'obtenir les taux de chômage par commune en IDF.  
    Console R 
-3. Lanchement du fichier python traitement_flux_dom_trav.R afin d'associer l'ensemble des flux aux taux de chomage et temps de trajet (en voiture et transport en commun) par commune d'arrivée. Prétraitement des flux car grosse base de donnée 
+4. Lanchement du fichier python traitement_flux_dom_trav.R afin d'associer l'ensemble des flux aux taux de chomage et temps de trajet (en voiture et transport en commun) par commune d'arrivée. Prétraitement des flux car grosse base de donnée 
 
 #### Partie transport en commun 
   Console Python 
