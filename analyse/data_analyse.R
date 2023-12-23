@@ -76,11 +76,14 @@ plot(indicateurs_par_com$euclidean_distance_centroid,
       y = indicateurs_par_com$taux_CHOM1564_POP1564, 
       xlab = "Distance à vol d'oiseau par rapport à Paris (en m)", ylab = "Taux de chomage par commune de départ"
       )
+mod = lm(taux_CHOM1564_POP1564~euclidean_distance_centroid,data=indicateurs_par_com)
+summary(mod)
 plot(indicateurs_par_com$euclidean_distance,
      y = indicateurs_par_com$taux_CHOM1564_POP1564, 
      xlab = "Distance à vol d'oiseau par rapport aux communes d'arrivée (en m)", ylab = "Taux de chomage par commune de départ"
     )
-
+mod = lm(taux_CHOM1564_POP1564~euclidean_distance,data=indicateurs_par_com)
+summary(mod)
 # Suppression des valeurs NA
 indicateurs_par_com_ech = na.omit(indicateurs_par_com,subset=c('euclidean_distance','taux_CHOM1564_POP1564'))
 indicateurs_par_com_ech$taux_CHOM1564_POP1564 = as.double(indicateurs_par_com_ech$taux_CHOM1564_POP1564)
@@ -103,6 +106,9 @@ plot(log(taux_CHOM1564_POP1564)~log(temps_moyen_TC_comm),
      ylab = "log(Taux de chômage par com de départ)")
 abline(modele_temps_par_com_log)
 
+mod = lm(taux_CHOM1564_POP1564~temps_moyen_TC_comm,data=indicateurs_par_com)
+summary(mod)
+
 ## Régression sur les log entre temps moyen en VP et taux de chômage
 modele_temps_VP_par_com_log = lm(log(taux_CHOM1564_POP1564)~log(temps_moyen_VP_comm),data=indicateurs_par_com)
 summary(modele_temps_VP_par_com_log)
@@ -113,6 +119,7 @@ plot(log(taux_CHOM1564_POP1564)~log(temps_moyen_VP_comm),
      ylab = "log(Taux de chômage par com de départ)")
 abline(modele_temps_VP_par_com_log)
 
+
 ## Régression entre fréquence de passage par communes et taux de chômage
 modele_temps_arret_par_com = lm(taux_CHOM1564_POP1564~stop_id,data=na.omit(indicateurs_par_com,subset='stop_id'))
 summary(modele_temps_arret_par_com)
@@ -122,6 +129,15 @@ plot(taux_CHOM1564_POP1564~stop_id,
      xlab= "Nombre d'arrêts",
      ylab = "Taux de chômage")
 abline(modele_temps_arret_par_com)
+
+## Régression entre revenu médian et taux de chômage
+modele_revenu = lm(taux_CHOM1564_POP1564~MED20,data=indicateurs_par_com)
+summary(modele_revenu)
+plot(taux_CHOM1564_POP1564~MED20,
+     data=indicateurs_par_com,
+     xlab= "Revenu médian",
+     ylab = "Taux de chômage")
+abline(modele_revenu)
 
 # Pas de corrélation linéaire mais forte dépendance 
 #=> approximation par une regression adaptée aux données avec geom_smooth 
@@ -143,3 +159,4 @@ ggplot(data = indicateurs_par_com, aes(x = temps_moyen_VP_comm, y = taux_CHOM156
   labs(title = "Relation entre le temps de trajet moyen en véhicule privé et le taux de chômage",
        x = "Temps de trajet moyen en véhicule privé (minutes)",
        y = "Taux de Chômage")
+

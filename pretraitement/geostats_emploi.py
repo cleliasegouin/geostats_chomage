@@ -13,7 +13,7 @@ import plotly.express as px
 import os
 
 ## Changer de répertoire de travail 
-os.chdir("C:/Users/josep/OneDrive/Documents/ENSG/geodatascience/geostats_chomage")
+os.chdir("C:/Users/steph/OneDrive/Bureau/ENSG/ING3/DESIGEO/Analyse spatiale/projet_v3/geostats_chomage")
 
 ##Import données commune 
 ## référence et source des données : https://www.insee.fr/fr/statistiques/7632867?sommaire=7632977#dictionnaire
